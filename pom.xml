@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>dev.ikm.build</groupId>
+        <artifactId>java-parent</artifactId>
+        <version>1.55.0</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>dev.ikm.tinkar</groupId>
+    <artifactId>loinc-data-bom</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <name>Loinc Data BOM</name>
+    <description>Loinc Data Bill Of Materials</description>
+    <packaging>pom</packaging>
+
+    <url>http://www.ikm.dev</url>
+
+    <organization>
+        <name>Integrated Knowledge Management</name>
+        <url>http://www.ikm.dev</url>
+    </organization>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
+
+    <developers>
+        <!-- OSSRH Related Developer (Start) -->
+        <developer>
+            <id>ikmdev</id>
+            <name>IKM Development Team</name>
+            <email>support@ikm.dev</email>
+        </developer>
+        <!-- OSSRH Related Developer (End) -->
+    </developers>
+
+    <scm>
+        <url>http://www.github.com/ikmdev/loinc-data-bom</url>
+    </scm>
+
+    <properties>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <java.version>21</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <tinkar-core.version>1.82.0</tinkar-core.version>
+        <tinkar-schema.version>1.33.0</tinkar-schema.version>
+        <tinkar-transformer-api.version>1.7.0</tinkar-transformer-api.version>
+        <log4j.version>3.0.0-alpha1</log4j.version>
+        <slf4j.version>2.0.13</slf4j.version>
+        <tinkar-composer.version>1.5.0</tinkar-composer.version>
+        <eclipse-collections-api.version>11.1.0-r11</eclipse-collections-api.version>
+        <maven-plugin-plugin.version>3.13.0</maven-plugin-plugin.version>
+        <maven-plugin-annotations.version>3.13.0</maven-plugin-annotations.version>
+        <maven-plugin-api.version>3.9.7</maven-plugin-api.version>
+        <maven-deploy-plugin.version>3.1.0</maven-deploy-plugin.version>
+        <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
+        <maven-gpg-plugin.version>3.1.0</maven-gpg-plugin.version>
+        <build-helper-maven-plugin.version>3.6.0</build-helper-maven-plugin.version>
+        <jupiter.version>5.10.0</jupiter.version>
+
+        <packager.name>IKM Dev</packager.name>
+        <origin.url>https://www.nlm.nih.gov/healthit/snomedct/us_edition.html</origin.url>
+        <origin.namespace>3094dbd1-60cf-44a6-92e3-0bb32ca4d3de</origin.namespace>
+
+        <tinkar-starter-data.version>1.3.0</tinkar-starter-data.version>
+        <reasoner-type>ElkSnomedReasoner</reasoner-type>
+        <reinferAllHierarchy>false</reinferAllHierarchy>
+    </properties>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>${maven-deploy-plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+<!--
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>dev.ikm.tinkar</groupId>
+                <artifactId>loinc-data</artifactId>
+                <version>${tinkar-starter-data.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+-->
+
+    <profiles>
+        <profile>
+            <id>emptySourceJavadocOSSRH</id>
+            <activation>
+                <property>
+                    <name>repositoryIdOSSRH</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>ossrh</id>
+                    <layout>maven</layout>
+                    <url>
+                        https://s01.oss.sonatype.org/content/repositories/snapshots
+                    </url>
+                </snapshotRepository>
+                <repository>
+                    <id>maven-releases</id>
+                    <layout>maven</layout>
+                    <url>
+                        https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/
+                    </url>
+                </repository>
+            </distributionManagement>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <configuration>
+                            <sourcepath>${project.build.directory}/empty</sourcepath>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>javadoc-jar</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>sourceJavadocOSSRH</id>
+            <activation>
+                <property>
+                    <name>repositoryIdOSSRH</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>ossrh</id>
+                    <layout>maven</layout>
+                    <url>
+                        https://s01.oss.sonatype.org/content/repositories/snapshots
+                    </url>
+                </snapshotRepository>
+                <repository>
+                    <id>maven-releases</id>
+                    <layout>maven</layout>
+                    <url>
+                        https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/
+                    </url>
+                </repository>
+            </distributionManagement>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <configuration>
+                            <doclint>none</doclint>
+                            <source>${java.version}</source>
+                            <release>${java.version}</release>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>jar</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>stageOSSRH</id>
+            <activation>
+                <property>
+                    <name>repositoryIdOSSRH</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>ossrh</id>
+                    <layout>maven</layout>
+                    <url>
+                        https://s01.oss.sonatype.org/content/repositories/snapshots
+                    </url>
+                </snapshotRepository>
+                <repository>
+                    <id>maven-releases</id>
+                    <layout>maven</layout>
+                    <url>
+                        https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/
+                    </url>
+                </repository>
+            </distributionManagement>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-gpg-plugin</artifactId>
+                            <version>${maven-gpg-plugin.version}</version>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <gpgArguments>
+                                <argument>--pinentry-mode</argument>
+                                <argument>loopback</argument>
+                                <argument>--yes</argument>
+                                <argument>--verbose</argument>
+                            </gpgArguments>
+                        </configuration>
+                    </plugin>
+                    <!--plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>${nexus-staging-maven-plugin.version}</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>ossrh</serverId>
+                            <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                        </configuration>
+                    </plugin-->
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+
+</project>
